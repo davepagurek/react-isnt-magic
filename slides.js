@@ -25,11 +25,11 @@ window.addEventListener("keydown", function(event) {
 });
 
 window.addEventListener("popstate", function(event) {
-  document.querySelector(".visible").classList.remove("visible");
   goToSlide(event.state ? event.state.slide : window.location.hash.slice(1));
 });
 
 function goToSlide(slideNum) {
+  document.querySelector(".visible").classList.remove("visible");
   var currentSlide = document.getElementById(slideNum);
   currentSlide = currentSlide || document.querySelector(".slide");
   currentSlide.classList.add("visible");
