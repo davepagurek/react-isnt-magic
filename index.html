@@ -1,32 +1,155 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>React: Why and How</title>
+    <title>React Isn't Magic</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
     <div id="slides">
       <div class="slide centered visible">
-        <h1>React: Why and How</h1>
+        <h1>React Isn't Magic</h1>
         <h4>by Dave Pagurek</h4>
-        <h3>Removing the magic from frameworks by making frameworks</h3>
+        <h3>How React works, by creating React</h3>
       </div>
       <div class="slide">
-        <h2>A crappy app</h2>
-        <a class="jsbin-embed" href="http://jsbin.com/jisiqoy/embed?js,output">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.40.3"></script>
-      </div>
-      <div class="slide">
-        <h2>What state is it in?</h2>
+        <h2>Immediate Mode</h2>
         <ul>
-          <li>e.g. for closing the app and opening it again in the same state</li>
+          <li>e.g. JS Canvas, X, Processing</li>
+          <li>You're just given tools to draw shapes on the screen</li>
+          <li>Every frame, you redraw - if something changes, you see it immediately</li>
+          <li>Lots of freedom, lots of boilerplate</li>
+        </ul>
+      </div>
+      <div class="slide">
+        <h2>Retained Mode</h2>
+        <ul>
+          <li>e.g. JS DOM, UIKit, Swing</li>
+          <li>Components are persistent entities</li>
+          <li>You have to propagate changes through components</li>
+        </ul>
+      </div>
+      <div class="slide">
+        <h2>An example of bad retained mode state</h2>
+        <div class="img" style="background-image:url(img/todo.png)"></div>
+      </div>
+      <div class="slide">
+        <h2>Todo app heirarchy</h2>
+        <div class="img" style="background-image:url(img/todo-diagram.png)"></div>
+      </div>
+      <div class="slide">
+        <h2>When an interaction happens, what do we update?</h2>
+        <div class="img" style="background-image:url(img/todo-diagram-interaction.png)"></div>
+      </div>
+      <div class="slide">
+        <h2>Would this be easier in immediate mode UI?</h2>
+        <ul>
+          <li>Yes.</li>
+          <li>(Except that you'd have to then draw all your components from scratch and optimize everything and lose all the accessibility baked into retained mode components.)</li>
+          <li>But we can do something in between.</li>
+        </ul>
+      </div>
+      <div class="slide centered">
+        <h1>Let's make a retained mode app more immediate.</h1>
+        <h3>This is the fundamental idea of React</h3>
+      </div>
+      <div class="slide centered">
+        <h1>Part 1: Explicit State</h1>
+      </div>
+      <div class="slide">
+        <h2>A crappy retained mode app</h2>
+        <iframe src="http://jsbin.com/jisiqoy/embed?js,output" width="100%"></iframe>
+      </div>
+      <div class="slide">
+        <h2>How do I close and open it?</h2>
+        <ul>
+          <li>Let's say we want to have the app be exactly the same after reopening
+            <ul>
+              <li>Useful for testing, prerendering, and undo</li>
+            </ul>
+          </li>
+          <li>Have to ask <strong>what state the app is in</strong></li>
           <li>it's stored in the DOM, so you would have to go get it and serialize it</li>
         </ul>
       </div>
       <div class="slide">
-        <h2>Making the UI the result of a function</h2>
+        <h2>Let's store the state</h2>
         <ul>
-          <li><span class="code">render: state =&gt; ui</span></li>
+          <li>Let's pretend we need those features</li>
+          <li>Store state in an object</li>
         </ul>
+        <iframe src="http://jsbin.com/fupatu/embed?js,output" width="100%"></iframe>
+      </div>
+      <div class="slide">
+        <h2>Loading the state again</h2>
+        <ul>
+          <li>We can produce the app as a function of the state:<br />
+            <span class="code">render: state =&gt; ui</span></li>
+          <li>Same input yields the same output</li>
+        </ul>
+        <iframe src="http://jsbin.com/bagegi/embed?js,output" width="100%"></iframe>
+      </div>
+      <div class="slide">
+        <h2>Why not use our UI function all the time?</h2>
+        <ul>
+          <li>Let's rerender automatically whenever state changes</li>
+        </ul>
+        <iframe src="http://jsbin.com/damoda/embed?js,output" width="100%"></iframe>
+      </div>
+      <div class="slide">
+        <h2>String splicing is gross</h2>
+        <ul>
+          <li>Return an object instead of a string. This way we can only rerender parts that change, if we want.</li>
+        </ul>
+        <iframe src="http://jsbin.com/duqoget/embed?js,output" width="100%"></iframe>
+      </div>
+      <div class="slide">
+        <h2>Reuse some of these pieces with components</h2>
+        <iframe src="http://jsbin.com/ravelim/embed?js,output" width="100%"></iframe>
+      </div>
+      <div class="slide centered">
+        <h1>Part 2: Updating the state</h2>
+      </div>
+      <div class="slide">
+        <h2>How do we do state transitions?</h2>
+        <ul>
+          <li>We don't want state setting happening all over the place</li>
+          <li>Components can initiate a state change, and then need to wait to be rerendered</li>
+        </ul>
+        <div class="img" style="background-image:url(img/state-diagram.png)"></div>
+      </div>
+      <div class="slide">
+        <h2>Everything can set global state</h2>
+        <iframe src="http://jsbin.com/mazalaq/embed?js,output" width="100%"></iframe>
+      </div>
+      <div class="slide">
+        <h2>Scaling it up</h2>
+        <ul>
+          <li>Let's say we want some metadata to go with each grocery item</li>
+          <li>Instead of a list of strings, we have a list of objects with a <span class="code">name</span> property</li>
+          <li>But the "add item" state transition might come from multiple places (e.g. import buttons)</li>
+          <li>If there are multiple places where a new item can get added, they all need the same conversion boilerplate</li>
+        </ul>
+      </div>
+      <div class="slide">
+        <h2>Alternative: Dispatcher and actions</h2>
+        <ul>
+          <li>We can call each type of state transition an "action"</li>
+          <li>Each action needs some sort of information to be able to be porformed</li>
+          <li>Components can just tell a dispatcher to do that action with the information needed, and it will do the same transformation every time</li>
+        </ul>
+      </div>
+      <div class="slide">
+        <h2>Dispatching an action from the component's point of view</h2>
+        <span class="code">dispatch({type: "ADD_ITEM", item: "Oranges"})</span>
+      </div>
+      <div class="slide">
+        <h2>Handling dispatched actions</h2>
+        <ul>
+          <li>Given the previous state and an action, we have to produce the next state:<br />
+            <span class="code">handleAction: (state, action) =&gt; state</span></li>
+          <li>This is basically a <span class="code">reduce</span>, so we call these handlers <strong>reducers</strong></li>
+        </ul>
+        <iframe src="http://jsbin.com/vizojo/embed?js,output" width="100%"></iframe>
       </div>
     </div>
     <script type="text/javascript" src="slides.js"></script>
