@@ -34,6 +34,27 @@ li, p {
   opacity: 0.5;
 }
 
+.split {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-self: stretch;
+}
+
+pre {
+  background-color: #333;
+  color: #FFF;
+  flex: 1;
+  padding: 1em;
+  margin-right: 1em;
+  margin-bottom: 1em;
+  overflow: auto;
+}
+
+pre:last-child {
+  margin-right: 0;
+}
+
 iframe {
   flex: 1;
 }

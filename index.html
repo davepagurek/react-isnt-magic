@@ -57,7 +57,7 @@
       </div>
       <div class="slide">
         <h2>A crappy retained mode app</h2>
-        <iframe src="http://jsbin.com/jisiqoy/embed?js,output" width="100%"></iframe>
+        <iframe src="//jsbin.com/jisiqoy/embed?js,output" width="100%"></iframe>
       </div>
       <div class="slide">
         <h2>How do I close and open it?</h2>
@@ -77,7 +77,7 @@
           <li>Let's pretend we need those features</li>
           <li>Store state in an object</li>
         </ul>
-        <iframe src="http://jsbin.com/fupatu/embed?js,output" width="100%"></iframe>
+        <iframe src="//jsbin.com/fupatu/embed?js,output" width="100%"></iframe>
       </div>
       <div class="slide">
         <h2>Loading the state again</h2>
@@ -86,25 +86,46 @@
             <span class="code">render: state =&gt; ui</span></li>
           <li>Same input yields the same output</li>
         </ul>
-        <iframe src="http://jsbin.com/bagegi/embed?js,output" width="100%"></iframe>
+        <iframe src="//jsbin.com/bagegi/embed?js,output" width="100%"></iframe>
       </div>
       <div class="slide">
         <h2>Why not use our UI function all the time?</h2>
         <ul>
           <li>Let's rerender automatically whenever state changes</li>
+          <li>It can help to imagine it as a game loop that constantly rerenders, but more efficient</li>
         </ul>
-        <iframe src="http://jsbin.com/damoda/embed?js,output" width="100%"></iframe>
+        <iframe src="//jsbin.com/damoda/embed?js,output" width="100%"></iframe>
       </div>
       <div class="slide">
         <h2>String splicing is gross</h2>
         <ul>
           <li>Return an object instead of a string. This way we can only rerender parts that change, if we want.</li>
         </ul>
-        <iframe src="http://jsbin.com/duqoget/embed?js,output" width="100%"></iframe>
+        <iframe src="//jsbin.com/duqoget/embed?js,output" width="100%"></iframe>
+      </div>
+      <div class="slide">
+        <h2>This is basically JSX</h2>
+        <ul>
+          <li>In React, you can use <span class="code">React.createElement</span> to create these tag tree objects</li>
+          <li>JSX is syntactic sugar for this</li>
+          <li>This is also why you have to return <em>one</em> JSX tag always. Returning two sibling tags doesn't make sense when translated to actual JS</li>
+        </ul>
+        <div class="split">
+          <pre><code>&lt;MyButton color="blue" shadowSize={2}&gt;
+  Click Me
+&lt;/MyButton&gt;
+          </code></pre>
+          <pre><code>React.createElement(
+  MyButton,
+  {color: 'blue', shadowSize: 2},
+  'Click Me'
+)
+          </code></pre>
+        </div>
       </div>
       <div class="slide">
         <h2>Reuse some of these pieces with components</h2>
-        <iframe src="http://jsbin.com/ravelim/embed?js,output" width="100%"></iframe>
+        <iframe src="//jsbin.com/ravelim/embed?js,output" width="100%"></iframe>
       </div>
       <div class="slide centered">
         <h1>Part 2: Updating the state</h2>
@@ -119,7 +140,7 @@
       </div>
       <div class="slide">
         <h2>Everything can set global state</h2>
-        <iframe src="http://jsbin.com/mazalaq/embed?js,output" width="100%"></iframe>
+        <iframe src="//jsbin.com/mazalaq/embed?js,output" width="100%"></iframe>
       </div>
       <div class="slide">
         <h2>Scaling it up</h2>
@@ -149,7 +170,7 @@
             <span class="code">handleAction: (state, action) =&gt; state</span></li>
           <li>This is basically a <span class="code">reduce</span>, so we call these handlers <strong>reducers</strong></li>
         </ul>
-        <iframe src="http://jsbin.com/vizojo/embed?js,output" width="100%"></iframe>
+        <iframe src="//jsbin.com/vizojo/embed?js,output" width="100%"></iframe>
       </div>
     </div>
     <script type="text/javascript" src="slides.js"></script>
