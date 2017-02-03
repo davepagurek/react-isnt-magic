@@ -43,8 +43,14 @@
       <div class="slide">
         <h2>Would this be easier in immediate mode UI?</h2>
         <ul>
-          <li>Yes.</li>
-          <li>(Except that you'd have to then draw all your components from scratch and optimize everything and lose all the accessibility baked into retained mode components.)</li>
+          <li>Yes, thanks to unidirectional data flow</li>
+        </ul>
+        <div class="img" style="background-image:url(img/todo-diagram-immediate.png)"></div>
+      </div>
+      <div class="slide">
+        <h2>But...</h2>
+        <ul>
+          <li>You'd have to then draw all your components from scratch and optimize everything and lose all the accessibility baked into retained mode components since web components are made for retained mode</li>
           <li>But we can do something in between.</li>
         </ul>
       </div>
@@ -171,6 +177,28 @@
           <li>This is basically a <span class="code">reduce</span>, so we call these handlers <strong>reducers</strong></li>
         </ul>
         <iframe src="//jsbin.com/vizojo/embed?js,output" width="100%"></iframe>
+      </div>
+      <div class="slide">
+        <h2>This is how you use Redux</h2>
+        <ul>
+          <li>All the state lives in one place called a <strong>store</strong></li>
+          <li>You make and dispatch actions in the same way (but you don't have to write your own dispatcher!)</li>
+          <li>Reducers are the exact same</li>
+          <li>You still pass in state as props wherever you can</li>
+        </ul>
+      </div>
+      <div class="slide">
+        <h2>Using actual React and Redux</h2>
+        <iframe width="100%" src="//jsbin.com/wowuyo/embed?js,output"></iframe>
+      </div>
+      <div class="slide">
+        <h2>Resources</h2>
+        <ul>
+          <li><a href="https://facebook.github.io/react/docs/hello-world.html">React docs</a></li>
+          <li><a href="http://redux.js.org/docs/basics/">Redux docs</a></li>
+          <li><a href="https://github.com/facebookincubator/create-react-app">create-react-app</a>, for setting up React apps without worrying about the beast that is the Javscript build system</a></li>
+          <li><a href="https://facebook.github.io/react/docs/update.html">React immutability helpers</a>, for keeping state immutable and changing pieces in reducers</li>
+        </ul>
       </div>
     </div>
     <script type="text/javascript" src="slides.js"></script>
